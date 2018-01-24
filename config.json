@@ -1,0 +1,9 @@
+{
+	
+	"Name": "Go Json Config Helper",
+	"Version": 12,
+	"MyObject" : {
+		"Enabled" : true,
+		"ID" : 123.5
+	}
+}

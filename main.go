@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 )
 
-import "github.com/PenguenUmut/gohelper"
+import "github.com/PenguenUmut/gohelper/lib"
 
 
 

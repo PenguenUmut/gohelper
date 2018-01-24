@@ -1,4 +1,4 @@
-package gohelper
+package model
 
 type Config struct {
 	Name					string			`json:"name"`

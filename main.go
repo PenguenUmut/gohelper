@@ -2,42 +2,37 @@ package main
 
 import (
 	"log"
-	"os"
-	"path/filepath"
-	"encoding/json"
+	
+	"./model"
+	"./helper"
 )
 
-import "github.com/PenguenUmut/gohelper"
 
 
-
-var conf gohelper.Config
 
 func main() {
-	readConfig(&conf)
-
-	log.Printf("config.json Name: ", conf.Name)
-	log.Printf("config.json Version: ", conf.Version)
-	log.Printf("config.json MyObject.Enabled: ", conf.MyObject.Enabled)
-	log.Printf("config.json MyObject.ID: ", conf.MyObject.ID)
+	test_conf()
+	test_redis()
 }
 
 
-func readConfig(conf *gohelper.Config) {
-	configFileName := "config.json"
-	if len(os.Args) > 1 {
-		configFileName = os.Args[1]
-	}
-	configFileName, _ = filepath.Abs(configFileName)
-	log.Printf("Loading config: %v", configFileName)
+// helper.config test
+func test_conf() {
+	var conf model.Config
+	helper.ReadConfig(&conf, "config.json")
+	log.Println("Name: ", conf.Name)
+	log.Println("Version: ", conf.Version)
+	log.Println("MyObject.Enabled: ", conf.MyObject.Enabled)
+	log.Println("MyObject.ID: ", conf.MyObject.ID)
+}
 
-	configFile, err := os.Open(configFileName)
-	if err != nil {
-		log.Fatal("File error: ", err.Error())
-	}
-	defer configFile.Close()
-	jsonParser := json.NewDecoder(configFile)
-	if err := jsonParser.Decode(&conf); err != nil {
-		log.Fatal("Config error: ", err.Error())
-	}
+// helper.redis test
+func test_redis(){
+	redisClient := helper.CreateRedisClient("localhost",6379,1,"",":")
+	redisClient.Set("key1", "value1")
+	redisClient.Set("key3", 5)
+	d := redisClient.Get("key1")
+	log.Println("d",d)
+	d = redisClient.Get("key2")
+	log.Println("d",d)
 }

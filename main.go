@@ -13,6 +13,7 @@ import (
 func main() {
 	test_conf()
 	test_redis()
+	test_rpc()
 }
 
 
@@ -35,4 +36,15 @@ func test_redis(){
 	log.Println("d",d)
 	d = redisClient.Get("key2")
 	log.Println("d",d)
+}
+
+func test_rpc() {
+	rpc_client := helper.NewRPCClient("main", "http://127.0.0.1:8545", "10s")
+	rpc_client.Check()
+	bala,err := rpc_client.GetBalance("0xaf032fd62b7de068d66ce1ed3f14ebc6f4c25bb1")
+	log.Println(bala, err)
+	
+	work,err2 := rpc_client.GetWork()
+	log.Println(work, err2)
+	log.Println("END")
 }
